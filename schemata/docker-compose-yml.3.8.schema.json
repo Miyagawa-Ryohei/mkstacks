@@ -1,0 +1,207 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id": "c6c8737e-8993-48f1-b315-9fa3ff31edd9",
+  "title": "DockerComposeYML",
+  "description": "yml schema for docker-compose",
+  "type": "object",
+  "definitions": {
+    "ports-setting": {
+      "properties": {
+        "published": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      }
+    },
+    "ports": {
+      "type": [
+        "array",
+        "object"
+      ],
+      "items": {
+        "type": ["string","array"],
+        "items": {
+          "type": "object",
+          "$ref": "#/definitions/ports-setting"
+        }
+      },
+      "$ref": "#/definitions/ports-setting"
+    },
+    "command": {
+      "type": "string"
+    },
+    "depends_on": {
+      "type": ["object","array"],
+      "items": {
+        "type": "string"
+      },
+      "patternProperties": {
+        "^.+": {
+          "type": "object",
+          "properties": {
+            "condition": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "container-volumes": {
+      "type": ["array","object"],
+      "items": {
+        "type": "string"
+      },
+      "patternProperties": {
+        "^.*": {
+          "type": "string"
+        }
+      }
+    },
+    "networks": {
+      "type": ["array","object"],
+      "properties": {
+        "ipv4_address": {
+          "type": "string"
+        }
+      },
+      "items": {
+        "type": "string"
+      }
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "container-name": {
+          "type": "string"
+        },
+        "build": {
+          "type": "object",
+          "properties": {
+            "context": {
+              "type": "string"
+            },
+            "dockerfile": {
+              "type": "string"
+            },
+            "target": {
+              "type": "string"
+            },
+            "args": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "environment": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "volumes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extra_hosts": {
+          "type": "object",
+          "patternProperties": {
+            "^.*" : {
+              "type": "string"
+            }
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "networks": {
+          "type": [
+            "object",
+            "array"
+          ],
+          "patternProperties": {
+            "^.*$": {
+              "$ref": "#/definitions/networks"
+            }
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/networks"
+          }
+        },
+        "logging": {
+          "type": "object",
+          "properties": {
+            "driver": {
+              "type": "string"
+            },
+            "option": {
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "tty": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "docker compose version"
+    },
+    "services": {
+      "type": "object",
+      "patternProperties": {
+        "^.*": {
+          "$ref": "#/definitions/service"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/service"
+      },
+      "description": "service definition"
+    },
+    "volumes": {
+      "type": "object",
+      "patternProperties": {
+        "^.*": {
+          "$ref": "#/definitions/container-volumes"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/container-volumes"
+      }
+    },
+    "network": {
+      "type": "object"
+    }
+  }
+}
