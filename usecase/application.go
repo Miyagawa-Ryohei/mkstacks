@@ -216,7 +216,7 @@ func (app *Application) Up(udofIDs []string) error {
 	}
 
 	depends := app.GetDependencies(conf, udofIDs)
-	overrides, err := app.ResolveFileNames(append(udofIDs, depends...))
+	overrides, err := app.ResolveFileNames(append(depends, udofIDs...))
 	if err != nil {
 		return err
 	}
