@@ -100,7 +100,7 @@ func (app *Application) GetDependencies(conf *entity.StackConfiguration, udofs [
 			}
 
 			if _, ok := m[u]; !ok {
-				dependsList = append(dependsList, u)
+				dependsList = append([]string{u}, dependsList...)
 				m[u] = true
 			}
 		}
